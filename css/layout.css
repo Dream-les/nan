@@ -297,7 +297,13 @@
   height:100%; background:linear-gradient(90deg,#FFB6C1,#FF6B6B);
   border-radius:2px; width:0; transition:width .1s linear;
 }
-.progress-bow { display:none; }
+.progress-bow {
+  display:none;
+  position:absolute; top:-6px;
+  font-size:12px; line-height:1;
+  pointer-events:none;
+  transform:translateX(-50%);
+}
 .player-time { display:none; }
 .player-controls {
   display:flex; gap:4px; justify-content:center; flex-shrink:0;
@@ -381,11 +387,19 @@
 
   .top-bar-title{font-size:17px;}
   .decoration{font-size:14px!important;}
-  .music-player .player-panel.active{width:auto;padding:6px 10px;}
-  .player-song-title{max-width:60px;font-size:11px;}
-  .player-progress{min-width:45px;max-width:55px;}
-  .player-btn{width:24px;height:24px;font-size:11px;}
-  .player-btn.play-pause{width:28px;height:28px;}
+  .music-player .player-panel.active{width:auto;padding:6px 8px;}
+  .player-controls{gap:2px; }
+  /* 手机端扩大触摸区域，视觉保持小 */
+  .player-btn{
+    width:24px;height:24px;font-size:11px;
+    min-width:38px;min-height:38px;
+    border-radius:50%;
+    box-sizing:border-box;
+  }
+  .player-btn.play-pause{
+    width:28px;height:28px;
+    min-width:42px;min-height:42px;
+  }
 }
 
 @media(max-width:767px) and (min-width:481px){
