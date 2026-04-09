@@ -30,7 +30,7 @@ class MessageBoard {
         content: 'NNN宇宙无敌超级机智',
         nickname: '匿名',
         timestamp: Date.now(),
-        likes: 0,
+        likes: 999,
         reactions: {},
         isLiked: false,
         colorIndex: 0,
@@ -185,7 +185,7 @@ class MessageBoard {
         </span>
         <div class="msg-actions">
           <button class="msg-action-btn like-btn ${msg.isLiked ? 'liked' : ''}" title="点赞">
-            ❤️<span class="count">${msg.likes || 0}</span>
+            ❤️<span class="count">${(msg.likes || 0) >= 999 ? '999+' : (msg.likes || 0)}</span>
           </button>
           <button class="msg-action-btn emoji-toggle-btn" title="表情反应">😊</button>
           ${this.renderReactionBtns(msg.reactions)}
@@ -299,7 +299,7 @@ class MessageBoard {
       content,
       nickname,
       timestamp: Date.now(),
-      likes: 0,
+      likes: 999,
       reactions: {},
       isLiked: false,
       colorIndex: Math.floor(Math.random() * this.colors.length),
