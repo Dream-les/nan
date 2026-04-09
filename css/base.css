@@ -1,0 +1,125 @@
+/* ===========================
+   CSS 变量
+   =========================== */
+:root {
+  /* 字体 */
+  --font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-handwritten: 'Ma Shan Zheng', cursive;
+
+  /* 颜色 — 暖黄奶油色系 (v2.1) */
+  --color-primary: #FFB6C1;
+  --color-heart: #F5C6A5;
+  --color-secondary: #FFF8E7;
+  --color-accent: #FFD700;
+  --color-text: #5D4E37;
+  --color-tab-inactive: #B8907E;
+  --color-heart-border: #F5C6A5;
+  --color-heart-fill: #FFF3D9;
+
+  /* 渐变 */
+  --gradient-bg: linear-gradient(135deg, #FFF8E7, #FFEFCC);
+  --gradient-main: linear-gradient(135deg, #FFF8E7 0%, #FFEFCC 100%);
+
+  /* 圆角 */
+  --radius-photo: 4px;
+  --radius-card: 16px;
+  --radius-pill: 24px;
+
+  /* 阴影 */
+  --shadow-photo: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(245, 198, 165, 0.3);
+  --shadow-heart: 0 10px 40px rgba(245, 198, 165, 0.3);
+
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 40px;
+
+  /* 动画时长 */
+  --duration-fast: 0.2s;
+  --duration-normal: 0.3s;
+
+  /* 层级 */
+  --z-particle: 2;
+  --z-player: 100;
+  --z-tab-bar: 200;
+  --z-modal: 400;
+  --z-top-bar: 300;
+}
+
+/* ===========================
+   基础样式重置
+   =========================== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  background: var(--gradient-bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* 禁止选中（照片墙区域） */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* 图片基础样式 */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 链接 */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+a:hover {
+  color: var(--color-heart);
+}
+
+/* 隐藏元素 */
+.hidden {
+  display: none !important;
+}
+
+/* 隐藏带透明度 */
+.invisible {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* 聚焦样式 */
+:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* 按钮重置 */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+}

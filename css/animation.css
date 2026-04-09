@@ -1,0 +1,88 @@
+/**
+ * 入场动画 v2.3
+ * 基于 home.png 背景的心形照片墙动画（减缓版）
+ */
+
+/* ---- 顶栏淡入 ---- */
+.top-bar{opacity:0;transition:opacity .4s ease;}
+.top-bar.show{opacity:1;}
+
+/* ---- 心形容器入场 ---- */
+.heart-frame-wrapper{
+  opacity:0; transform:scale(.88);
+  transition:opacity .8s ease-out,transform .8s cubic-bezier(.175,.885,.32,1.275);
+}
+.heart-frame-wrapper.show{
+  opacity:1; transform:scale(1);
+}
+
+/* ---- 心形微脉动 ---- */
+.heart-frame-wrapper.pulse{
+  animation:heartPulse 3s ease-in-out infinite;
+}
+@keyframes heartPulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.012);}
+}
+
+/* ---- 照片缓缓飞入心形（减速版） ---- */
+.polaroid-card{
+  opacity:0;
+}
+.polaroid-card.fly-in{
+  opacity:1!important;
+  animation:photoFlyIn 2s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+@keyframes photoFlyIn{
+  0%{
+    opacity:0;
+    transform:translateY(-60vh) translateX(var(--fly-x,0)) scale(.35)
+               rotate(var(--rot-start,-20deg));
+  }
+  40%{
+    opacity:.85;
+    transform:translateY(20px) translateX(calc(var(--fly-x,0)*.15)) scale(1.02)
+               rotate(calc(var(--rot-end,var(--rot,0deg))*.2));
+  }
+  75%{
+    opacity:1;
+    transform:translateY(-5px) translateX(0) scale(1.01)
+               rotate(var(--rot-end,var(--rot,0deg)));
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) translateX(0) scale(1) rotate(var(--rot,var(--rot,0deg)));
+  }
+}
+
+/* ---- 预览卡片滑入 ---- */
+.preview-card{
+  opacity:0;
+  transition:opacity .6s ease,transform .6s cubic-bezier(.23,1,.32,1);
+}
+.preview-msg{transform:translateX(-30px);}
+.preview-video{transform:translateX(30px);}
+.preview-card.show{opacity:1;}
+.preview-msg.show{transform:translateX(0);}
+.preview-video.show{transform:translateX(0);}
+
+/* ---- 药丸标签栏弹入 ---- */
+.tab-bar{
+  opacity:1;
+}
+
+/* ---- 散落装饰渐显+漂浮 ---- */
+.decoration{
+  opacity:0;
+  animation:decorAppear 1s ease forwards,
+             decorFloat var(--float-dur,4s) ease-in-out infinite;
+  animation-delay:0s,calc(var(--deco-delay,0ms)+1s);
+}
+@keyframes decorAppear{to{opacity:.75;}}
+
+/* ---- 情话文字渐显 ---- */
+.heart-quote{
+  opacity:0;transform:translateX(-50%) translateY(-10px);
+  transition:opacity 1s ease .8s,transform 1s ease .8s;
+}
+.heart-quote.show{opacity:.85;transform:translateX(-50%) translateY(0);}

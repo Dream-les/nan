@@ -1,0 +1,161 @@
+/* ===========================
+   照片翻转交互（保留）
+   =========================== */
+
+.photo-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.photo-front,
+.photo-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius-photo);
+  overflow: hidden;
+}
+
+.photo-front {
+  background: transparent;
+}
+
+.photo-back {
+  background: linear-gradient(135deg, #fff 0%, #FFF3D9 100%);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  text-align: center;
+  border: 3px solid #fff;
+  box-shadow: var(--shadow-photo);
+}
+
+.photo-back .date {
+  font-size: 0.7rem;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.photo-back .text {
+  font-family: var(--font-handwritten);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+/* ===========================
+   模态框组件
+   =========================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: scale(0.9) translateY(20px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.modal-image {
+  max-width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: var(--radius-card);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+}
+
+.modal-info {
+  text-align: center;
+  margin-top: var(--spacing-md);
+  color: #fff;
+}
+
+.modal-info .modal-date {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.modal-info .modal-text {
+  font-family: var(--font-handwritten);
+  font-size: 1.05rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: -38px; right: 0;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff; font-size: 1.3rem;
+  transition: background var(--duration-fast);
+}
+.modal-close:hover { background: rgba(255,255,255,0.35); }
+
+/* 模态框导航箭头 */
+.modal-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 46px; height: 46px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.4rem;
+  cursor: pointer; transition: background var(--duration-fast);
+}
+.modal-nav:hover { background: rgba(255,255,255,0.3); }
+.modal-nav.prev { left: -60px; }
+.modal-nav.next { right: -60px; }
+.modal-nav.hidden { display: none; }
+
+@media (max-width: 768px) {
+  .modal-nav.prev { left: 8px; }
+  .modal-nav.next { right: 8px; }
+}
+
+@media (max-width: 480px) {
+  .modal-nav { width: 38px; height: 38px; font-size: 1.1rem; }
+  .modal-nav.prev { left: 4px; }
+  .modal-nav.next { right: 4px; }
+}
+
+/* 音乐播放器样式已统一到 layout.css */

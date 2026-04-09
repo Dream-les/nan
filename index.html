@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="我们的私密空间 - 心形照片墙">
+  <meta name="theme-color" content="#FFF8E7">
+  <title>我们的私密空间</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- 样式表 -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/animation.css">
+  <link rel="stylesheet" href="css/component.css">
+  <link rel="stylesheet" href="css/message-board.css">
+</head>
+<body class="no-select">
+
+  <!-- ==================== 封面页（欢迎页） ==================== -->
+  <div id="landingPage" class="landing-page">
+    <div class="landing-content">
+      <div class="landing-photo-wrap">
+        <img id="landingPhoto" class="landing-photo" src="" alt="我们的合照">
+      </div>
+      <div id="landingTimer" class="landing-timer">
+        <span class="timer-days">0</span> 天
+        <span class="timer-hours">0</span> 时
+        <span class="timer-minutes">0</span> 分
+        <span class="timer-seconds">0</span> 秒
+      </div>
+      <p class="landing-subtitle">From 2022.03.04</p>
+      <button id="enterBtn" class="enter-btn">进入我们的世界</button>
+    </div>
+  </div>
+
+  <!-- ==================== 主页面容器（初始隐藏） ==================== -->
+  <div id="mainPage" class="main-page hidden">
+
+    <!-- 顶栏导航 -->
+    <header id="topBar" class="top-bar">
+      <h1 class="top-bar-title">❤ 主页</h1>
+      <div class="top-bar-menu" title="更多">⚙</div>
+    </header>
+
+    <!-- 散落装饰层 -->
+    <div id="decorationLayer" class="decoration-layer"></div>
+
+    <!-- ---- 照片墙标签（默认首屏） ---- -->
+    <section id="tab-gallery" class="tab-panel active">
+      <div class="main-content">
+
+        <!-- 心形区域容器（home.png 已有心形轮廓） -->
+        <div id="heartFrameWrapper" class="heart-frame-wrapper">
+
+          <!-- 情话文字 — 心形顶部 -->
+          <p class="heart-quote" id="heartQuote">愿岁月温柔，愿我们永远如初见</p>
+
+          <!-- 照片内容区（照片分布在此区域内，无SVG边框） -->
+          <div id="heartFrameInner" class="heart-frame-inner"></div>
+
+        </div><!-- /heartFrameWrapper -->
+
+        <!-- 预览卡片（放在心形容器外，确保 position:fixed 相对视口生效） -->
+        <div id="previewMsg" class="preview-card preview-msg">
+          <div class="preview-msg-title"><span class="preview-msg-dot" style="background:#FFB6C1"></span>留言墙</div>
+          <div class="preview-msg-content" id="previewMsgContent">
+            <p class="preview-msg-text"></p>
+            <span class="preview-msg-author"></span>
+          </div>
+        </div>
+
+        <div id="previewVideo" class="preview-card preview-video">
+          <div class="preview-video-thumb">
+            <img src="./video/" alt="" onerror="this.style.display='none'">
+            <div class="preview-video-play">▶</div>
+          </div>
+          <div class="preview-video-bar">
+            <div class="preview-video-progress">
+              <div class="preview-video-progress-fill"></div>
+            </div>
+            <div class="preview-video-dot"></div>
+          </div>
+        </div><!-- /preview-video -->
+
+      </div><!-- /main-content -->
+    </section><!-- /tab-gallery -->
+
+    <!-- ---- 其他标签占位 ---- -->
+    <section id="tab-messages" class="tab-panel">
+      <!-- 留言墙标签页（内容通过模态框展示，此section仅作为占位） -->
+    </section>
+
+    <section id="tab-video" class="tab-panel">
+      <div class="main-content" style="justify-content:flex-start;padding-top:80px;">
+        <p style="font-family:var(--font-handwritten);font-size:1.3rem;color:var(--color-text);opacity:0.6;">
+          🎬 视频功能开发中...
+        </p>
+      </div>
+    </section>
+
+    <section id="tab-album" class="tab-panel">
+      <div class="main-content" style="justify-content:flex-start;padding-top:80px;">
+        <p style="font-family:var(--font-handwritten);font-size:1.3rem;color:var(--color-text);opacity:0.6;">
+          📸 相册功能开发中...
+        </p>
+      </div>
+    </section>
+
+    <section id="tab-game" class="tab-panel">
+      <div class="main-content" style="justify-content:flex-start;padding-top:80px;">
+        <p style="font-family:var(--font-handwritten);font-size:1.3rem;color:var(--color-text);opacity:0.6;">
+          🎮 小游戏开发中...
+        </p>
+      </div>
+    </section>
+
+
+    <!-- 底部药丸标签栏 -->
+    <nav id="tabBar" class="tab-bar">
+      <button class="tab-pill active" data-tab="gallery">照片墙</button>
+      <button class="tab-pill" data-tab="messages">留言墙</button>
+      <button class="tab-pill" data-tab="video">视频</button>
+      <button class="tab-pill" data-tab="album">相册</button>
+      <button class="tab-pill" data-tab="game">小游戏</button>
+    </nav>
+
+    <!-- 留言板模态框（放在所有tab-panel之外，避免被display:none隐藏） -->
+    <div id="messageBoardModal" class="msg-modal">
+      <div class="msg-overlay"></div>
+      <div class="msg-panel">
+        <!-- 标题栏 -->
+        <div class="msg-header">
+          <h3>💬 留言墙</h3>
+          <button class="msg-close-btn" title="关闭">×</button>
+        </div>
+
+        <!-- 便签墙（瀑布流） -->
+        <div class="msg-wall" id="msgWall"></div>
+
+        <!-- 输入区 -->
+        <div class="msg-input-bar">
+          <div class="msg-input-row">
+            <input type="text" class="msg-nickname-input" placeholder="昵称" maxlength="12" />
+            <div class="msg-textarea-wrap">
+              <textarea class="msg-textarea" placeholder="写下你的留言..." rows="1"
+                maxlength="300"></textarea>
+            </div>
+            <button class="msg-send-btn">发送🚀</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 音乐播放器 — 右上角 -->
+    <div class="music-player">
+      <button id="playerToggle" class="player-toggle" title="音乐播放器">
+        <span class="player-icon">🎵</span>
+      </button>
+      <div id="playerPanel" class="player-panel active">
+        <div class="player-song-info">
+          <p id="songTitle" class="player-song-title">岁月里的花</p>
+          <p id="songArtist" class="player-song-artist">莫文蔚</p>
+        </div>
+        <div class="player-progress">
+          <div id="progressBar" class="player-progress-bar">
+            <div id="progressFill" class="player-progress-fill"></div>
+            <span id="progressBow" class="progress-bow">🎀</span>
+          </div>
+          <div class="player-time">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
+          </div>
+        </div>
+        <div class="player-controls">
+          <button id="prevBtn" class="player-btn" title="上一首">⏮</button>
+          <button id="playPauseBtn" class="player-btn play-pause" title="播放/暂停">▶</button>
+          <button id="nextBtn" class="player-btn" title="下一首">⏭</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 照片模态框 -->
+    <div id="photoModal" class="modal-overlay">
+      <div class="modal-content">
+        <button id="modalClose" class="modal-close" title="关闭">×</button>
+        <button id="modalPrev" class="modal-nav prev hidden" title="上一张">‹</button>
+        <button id="modalNext" class="modal-nav next hidden" title="下一张">›</button>
+        <img id="modalImage" class="modal-image" src="" alt="">
+        <div class="modal-info">
+          <p id="modalDate" class="modal-date"></p>
+          <p id="modalText" class="modal-text"></p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /mainPage -->
+
+  <!-- 脚本 -->
+  <script src="js/config.js?v=10"></script>
+  <script src="js/heart.js?v=10"></script>
+  <script src="js/interaction.js?v=6"></script>
+  <script src="js/player.js?v=5"></script>
+  <script src="js/message-board.js?v=1"></script>
+  <script src="js/main.js?v=10"></script>
+</body>
+</html>
