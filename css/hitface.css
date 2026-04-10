@@ -1,0 +1,478 @@
+/* ===========================
+   打脸消气小游戏 — 全部样式
+   =========================== */
+
+/* ---- 游戏入口页面（tab-game 内） ---- */
+.hitface-entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 60px var(--spacing-md) 140px;
+  gap: 20px;
+}
+
+.hitface-title {
+  font-family: var(--font-handwritten);
+  font-size: 2rem;
+  color: var(--color-text);
+}
+
+.hitface-subtitle {
+  font-family: var(--font-handwritten);
+  font-size: 1.1rem;
+  color: var(--color-tab-inactive);
+  opacity: 0.7;
+}
+
+.hitface-init-img-wrap {
+  width: 260px;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
+  border: 4px solid #fff;
+  animation: hfInitBounce 2s ease-in-out infinite;
+}
+
+@keyframes hfInitBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.hitface-init-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hitface-start-btn {
+  min-width: 180px;
+  height: 48px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 4px 15px rgba(255,107,107,.35);
+}
+.hitface-start-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(255,107,107,.45); }
+.hitface-start-btn:active { transform: scale(.96); }
+
+/* ---- 模态框 ---- */
+.hf-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .35s ease;
+}
+.hf-modal.active { opacity: 1; visibility: visible; }
+
+.hf-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hf-container {
+  position: relative;
+  width: 92vw;
+  max-width: 480px;
+  max-height: 95vh;
+  background: linear-gradient(160deg, #FFF5F5 0%, #FFF9E6 100%);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 100px;
+  overflow-y: auto;
+  transform: scale(.92) translateY(20px);
+  transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+}
+.hf-modal.active .hf-container { transform: scale(1) translateY(0); }
+
+.hf-close-btn {
+  position: absolute;
+  top: 12px; right: 14px;
+  width: 32px; height: 32px;
+  background: rgba(0,0,0,.12);
+  border-radius: 50%;
+  color: #666;
+  font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .2s;
+  z-index: 10;
+}
+.hf-close-btn:hover { background: rgba(0,0,0,.22); }
+
+/* 击中计数 */
+.hf-counter {
+  position: absolute;
+  top: 12px; left: 16px;
+  font-family: var(--font-handwritten);
+  font-size: 18px;
+  color: #FF6B6B;
+  font-weight: bold;
+  z-index: 10;
+  text-shadow: 0 1px 2px rgba(255,107,107,.3);
+}
+
+/* ---- 角色展示区 ---- */
+.hf-stage {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 28px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+.hf-char-img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  transition: transform .15s ease, opacity .3s ease;
+  box-shadow: 0 6px 24px rgba(0,0,0,.12);
+}
+.hf-char-img.hf-hit-shake {
+  animation: hfShake .4s ease;
+}
+@keyframes hfShake {
+  0%   { transform: translateX(0) scale(1); }
+  20%  { transform: translateX(-4px) scale(.95); }
+  40%  { transform: translateX(4px) scale(.93); }
+  60%  { transform: translateX(-3px) scale(.95); }
+  80%  { transform: translateX(2px) scale(.97); }
+  100% { transform: translateX(0) scale(1); }
+}
+
+/* 特效层（覆盖在角色图上） */
+.hf-effect-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* ---- 状态描述文字 ---- */
+.hf-desc {
+  margin-top: 14px;
+  font-family: var(--font-handwritten);
+  font-size: 1.05rem;
+  color: var(--color-text);
+  opacity: .8;
+  text-align: center;
+  min-height: 1.5em;
+  transition: opacity .3s;
+}
+
+/* ---- 道具栏 ---- */
+.hf-toolbar {
+  position: absolute;
+  bottom: 16px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+  z-index: 10;
+}
+
+.hf-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: all .2s ease;
+  min-width: 52px;
+}
+.hf-item:hover { background: rgba(255,182,193,.15); }
+.hf-item.active {
+  border-color: var(--color-primary);
+  background: rgba(255,182,193,.2);
+  transform: translateY(-2px);
+}
+
+.hf-icon {
+  width: 36px; height: 36px;
+  display: block;
+}
+.hf-label {
+  font-size: 11px;
+  color: var(--color-tab-inactive);
+  font-weight: 500;
+}
+
+/* ===== CSS 绘制卡通道具图标 ===== */
+
+/* 抱枕 — 圆角矩形 + 柔和色 */
+.hf-icon-pillow {
+  background: linear-gradient(135deg, #FFB6C1, #FFC0CB);
+  border-radius: 10px;
+  box-shadow: inset 0 -3px 0 rgba(200,150,160,.3), 0 2px 6px rgba(255,182,193,.3);
+}
+.hf-icon-pillow::after {
+  content:''; position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  width:16px; height:3px; background:rgba(255,255,255,.4); border-radius:2px;
+}
+
+/* 拖鞋 — 椭圆底 + 带子 */
+.hf-icon-slipper {
+  position: relative;
+  background: linear-gradient(135deg, #87CEEB, #B0E0E6);
+  border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+  box-shadow: 0 2px 5px rgba(135,206,235,.4);
+}
+.hf-icon-slipper::before {
+  content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%);
+  width:22px; height:7px; border:2.5px solid #5DADE2;
+  border-bottom:none; border-radius:10px 10px 0 0;
+}
+
+/* 平底锅 — 圆形 + 手柄 */
+.hf-icon-pan {
+  position: relative;
+  background: linear-gradient(135deg, #555, #777);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.3), 0 2px 5px rgba(0,0,0,.2);
+}
+.hf-icon-pan::after {
+  content:''; position:absolute; top:50%; right:-8px; transform:translateY(-50%);
+  width:10px; height:4px; background:#666; border-radius:2px;
+}
+
+/* 气球 — 圆形 + 三角绳结 */
+.hf-icon-balloon {
+  position: relative;
+  background: linear-gradient(135deg, #FF6B81, #FF4757);
+  border-radius: 50% 50% 50% 50% / 55% 55% 45% 45%;
+  box-shadow: 0 3px 8px rgba(255,71,87,.35);
+}
+.hf-icon-balloon::after {
+  content:''; position:absolute; bottom:-5px; left:50%; transform:translateX(-50%);
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+  border-top:7px solid #FF4757;
+}
+
+/* 袜子 — 梯形 + 波浪边缘 */
+.hf-icon-sock {
+  background: linear-gradient(180deg, #DDD 0%, #BBB 100%);
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+  border-radius: 4px 4px 0 0;
+}
+.hf-icon-sock::before {
+  content:'~'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  font-size:14px; color:#999; font-style:italic;
+}
+
+/* 鸡蛋 — 椭圆碎裂 */
+.hf-icon-egg {
+  position: relative;
+  background: linear-gradient(135deg, #FFE4B5, #F5DEB3);
+  border-radius: 50% 50% 48% 48% / 60% 60% 40% 40%;
+  box-shadow: 0 2px 5px rgba(245,222,179,.4);
+}
+.hf-icon-egg::after {
+  content:''; position:absolute; top:8px; left:50%; transform:translateX(-50%);
+  width:16px; height:12px; background:rgba(255,200,0,.5);
+  border-radius:50%; opacity:.6;
+}
+
+/* 让 ::before/after 相对于 icon 定位 */
+.hf-icon-pillow,
+.hf-icon-slipper,
+.hf-icon-pan,
+.hf-icon-balloon,
+.hf-icon-sock,
+.hf-icon-egg { position: relative; }
+
+/* ---- 飞行道具动画元素 ---- */
+.hf-flying-item {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 50px; height: 50px;
+  transition: left .28s cubic-bezier(.25,.46,.45,.94),
+              top .28s cubic-bezier(.25,.46,.45,.94),
+              transform .28s ease,
+              opacity .2s .2s;
+}
+
+/* ---- 击中特效印记 ---- */
+.hf-hit-mark {
+  position: absolute;
+  pointer-events: none;
+  animation: hfMarkFade .8s ease forwards;
+}
+@keyframes hfMarkFade {
+  0%   { opacity: 1; transform: scale(1.2); }
+  50%  { opacity: .9; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.1); }
+}
+
+/* 各道具的击中印记样式 */
+.hf-mark-pillow {
+  width: 70px; height: 50px;
+  background: rgba(255,182,193,.5);
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(255,182,193,.3);
+}
+.hf-mark-slipper {
+  width: 50px; height: 32px;
+  background: rgba(135,206,235,.5);
+  border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+  border: 2px solid rgba(93,173,226,.5);
+}
+.hf-mark-pan {
+  width: 55px; height: 55px;
+  background: rgba(100,100,100,.35);
+  border-radius: 50%;
+  border: 3px solid rgba(80,80,80,.3);
+}
+.hf-mark-balloon {
+  width: 45px; height: 50px;
+  background: rgba(255,71,87,.35);
+  border-radius: 50% 50% 48% 48% / 55% 55% 45% 45%;
+}
+.hf-mark-sock {
+  width: 40px; height: 50px;
+  background: rgba(180,180,180,.4);
+  clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
+}
+.hf-mark-egg {
+  width: 48px; height: 38px;
+  background: rgba(255,220,120,.5);
+  border-radius: 50% 50% 48% 48% / 55% 55% 45% 45%;
+  position: relative;
+}
+.hf-mark-egg::after {
+  content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
+  width:8px; height:14px; background:rgba(255,200,0,.5); border-radius:0 0 50% 50%;
+}
+
+/* ---- 结局覆盖层 ---- */
+.hf-ending {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.92);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px;
+  z-index: 20;
+  animation: hfEndingIn .5s ease;
+}
+@keyframes hfEndingIn {
+  from { opacity: 0; transform: scale(.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.hf-ending-content {
+  text-align: center;
+}
+
+.hf-ending-img {
+  width: 200px;
+  height: auto;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.12);
+  margin-bottom: 12px;
+}
+
+.hf-ending-title {
+  font-family: var(--font-handwritten);
+  font-size: 1.6rem;
+  color: var(--color-text);
+  margin-bottom: 8px;
+}
+
+.hf-ending-sub {
+  font-family: var(--font-handwritten);
+  font-size: 1.1rem;
+  color: var(--color-tab-inactive);
+  line-height: 1.6;
+}
+
+/* 飘落爱心/花朵粒子容器 */
+.hf-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1020;
+  overflow: hidden;
+}
+
+.hf-particle {
+  position: absolute;
+  top: -30px;
+  animation: hfFall 3s linear forwards;
+  font-size: 20px;
+  opacity: 0;
+}
+@keyframes hfFall {
+  0%   { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+  100% { opacity: 0; transform: translateY(100vh) rotate(360deg) scale(.5); }
+}
+
+.hf-restart-btn {
+  min-width: 140px;
+  height: 42px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, var(--color-primary), #FF8E53);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 4px 12px rgba(255,182,193,.35);
+}
+.hf-restart-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(255,182,193,.45); }
+.hf-restart-btn:active { transform: scale(.96); }
+
+/* ---- 手机端适配 ---- */
+@media (max-width: 480px) {
+  .hitface-entry { padding: 40px 12px 130px; }
+  .hitface-title { font-size: 1.5rem; }
+  .hitface-init-img-wrap { width: 200px; height: 200px; }
+  .hf-container { padding: 20px 12px 110px; max-height: 98vh; }
+  .hf-stage { max-width: 85vw; }
+  .hf-toolbar { gap: 4px; padding: 8px 10px; }
+  .hf-item { padding: 6px 7px; min-width: 44px; }
+  .hf-icon { width: 30px; height: 30px; }
+  .hf-label { font-size: 10px; }
+  .hf-counter { font-size: 16px; top: 10px; left: 10px; }
+  .hf-desc { font-size: .95rem; margin-top: 10px; }
+  .hf-close-btn { width: 28px; height: 28px; font-size: 17px; top: 8px; right: 10px; }
+  .hf-restart-btn { min-width: 120px; height: 38px; font-size: 14px; }
+  .hf-ending { padding: 20px; }
+  .hf-ending-img { width: 150px; }
+  .hf-ending-title { font-size: 1.3rem; }
+  .hf-ending-sub { font-size: .95rem; }
+}

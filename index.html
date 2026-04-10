@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="css/animation.css">
   <link rel="stylesheet" href="css/component.css">
   <link rel="stylesheet" href="css/message-board.css">
+  <link rel="stylesheet" href="css/hitface.css">
 </head>
 <body class="no-select">
 
@@ -112,10 +113,13 @@
     </section>
 
     <section id="tab-game" class="tab-panel">
-      <div class="main-content" style="justify-content:flex-start;padding-top:80px;">
-        <p style="font-family:var(--font-handwritten);font-size:1.3rem;color:var(--color-text);opacity:0.6;">
-          🎮 小游戏开发中...
-        </p>
+      <div class="hitface-entry">
+        <h2 class="hitface-title">打脸消气 😤</h2>
+        <p class="hitface-subtitle">心情不好？来打他！</p>
+        <div class="hitface-init-img-wrap">
+          <img class="hitface-init-img" src="img/HitFace/init.png" alt="来打我呀">
+        </div>
+        <button id="hitFaceStartBtn" class="hitface-start-btn">发动打击 🗡️</button>
       </div>
     </section>
 
@@ -152,6 +156,62 @@
             </div>
             <button class="msg-send-btn">发送🚀</button>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 打脸消气游戏模态框 -->
+    <div id="hitFaceModal" class="hf-modal">
+      <div class="hf-overlay"></div>
+      <div class="hf-container">
+        <!-- 关闭按钮 -->
+        <button class="hf-close-btn" title="关闭">&times;</button>
+
+        <!-- 击中计数 -->
+        <div class="hf-counter" id="hfCounter">0 击</div>
+
+        <!-- 角色展示区 -->
+        <div class="hf-stage" id="hfStage">
+          <img class="hf-char-img" id="hfCharImg" src="img/HitFace/Start.png" alt="角色">
+          <!-- 特效层 -->
+          <div class="hf-effect-layer" id="hfEffectLayer"></div>
+        </div>
+
+        <!-- 状态描述文字 -->
+        <p class="hf-desc" id="hfDesc">来吧！放马过来！</p>
+
+        <!-- 道具选择栏 -->
+        <div class="hf-toolbar" id="hfToolbar">
+          <button class="hf-item active" data-item="pillow" title="抱枕">
+            <span class="hf-icon hf-icon-pillow"></span>
+            <span class="hf-label">抱枕</span>
+          </button>
+          <button class="hf-item" data-item="slipper" title="拖鞋">
+            <span class="hf-icon hf-icon-slipper"></span>
+            <span class="hf-label">拖鞋</span>
+          </button>
+          <button class="hf-item" data-item="pan" title="平底锅">
+            <span class="hf-icon hf-icon-pan"></span>
+            <span class="hf-label">平底锅</span>
+          </button>
+          <button class="hf-item" data-item="balloon" title="气球">
+            <span class="hf-icon hf-icon-balloon"></span>
+            <span class="hf-label">气球</span>
+          </button>
+          <button class="hf-item" data-item="sock" title="袜子">
+            <span class="hf-icon hf-icon-sock"></span>
+            <span class="hf-label">袜子</span>
+          </button>
+          <button class="hf-item" data-item="egg" title="鸡蛋">
+            <span class="hf-icon hf-icon-egg"></span>
+            <span class="hf-label">鸡蛋</span>
+          </button>
+        </div>
+
+        <!-- 结局覆盖层（隐藏） -->
+        <div class="hf-ending hidden" id="hfEnding">
+          <div class="hf-ending-content" id="hfEndingContent"></div>
+          <button class="hf-restart-btn" id="hfRestartBtn">再打一次 🔁</button>
         </div>
       </div>
     </div>
@@ -206,6 +266,7 @@
   <script src="js/interaction.js?v=6"></script>
   <script src="js/player.js?v=5"></script>
   <script src="js/message-board.js?v=1"></script>
+  <script src="js/hitface-game.js?v=1"></script>
   <script src="js/main.js?v=10"></script>
 </body>
 </html>
